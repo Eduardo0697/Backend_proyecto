@@ -9,6 +9,8 @@ const typeDefs = `
 
     type Mutation{
         createUser( name:String!, age:Int): User!
+        deleteUser( id: Int!) : String!
+        updateUser( id: Int!, name:String!, age:Int) : [User]!
     }
 
     type User{
@@ -36,6 +38,20 @@ const resolvers = {
 
             users.push(user);
             return user;
+        },
+        deleteUser: (root, { id }, context, info) => {
+            users.splice(users.indexOf(users.find(u => u.id === id)),1)
+            return `Se Elimino con exito el usuario con id ${ id }`
+        },
+        updateUser: (root, { id, name, age}, context, info) => {
+            const user = users.find(u => u.id === id);
+            const newUser = {
+                id: user.id,
+                name : name,
+                age : age
+            }
+            users.splice(users.indexOf(user),1,newUser)
+            return users;
         }
     }
 };
