@@ -1,0 +1,40 @@
+type Query{
+    getHosts:[Host]!
+}
+
+type Mutation{
+    createHost(data:HostCreateInput): Host!
+}
+
+type Host{
+    _id: ID!
+    first_name: String!
+    last_name: String!
+    email: String!
+    birth_date: String!
+    properties: [Property]!
+    gender: GENDER
+    profile_pic: String!
+    isActvie: Boolean!
+}
+
+type Property{
+    _id: ID!
+    title: String!
+    address: String!
+    description: String!
+}
+
+input HostCreateInput{
+    first_name: String!
+    last_name: String!
+    email: String!
+    birth_date: String
+    gender: GENDER
+    profile_pic: String
+}
+
+enum GENDER{
+    M
+    F
+}
