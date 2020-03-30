@@ -1,9 +1,21 @@
 type Query{
     getHosts:[Host]!
+    getUsers:[User]!
+    getHostsById(id:ID!):Host!
+    getUsersById(id:ID!):User!
+    getReviewsByIs(id:ID!):Review! 
 }
 
 type Mutation{
     createHost(data:HostCreateInput): Host!
+    updateHost(id:ID!, data:HostUpdateInput): Host!
+    deleteHost(id:ID!): Host!
+    createUser(data:UserUpdateInput): User!
+    updateUser(id:ID!, data:UserUpdateInput): User!
+    deleteUser(id:ID!): User!
+    createReview(data:ReviewCreateInput): Review!
+    updateReview(id:ID!, data:ReviewUpdateInput): Review!
+    deleteReview(id:ID!): Review!
 }
 
 type Host{
@@ -11,30 +23,151 @@ type Host{
     first_name: String!
     last_name: String!
     email: String!
-    birth_date: String!
-    properties: [Property]!
-    gender: GENDER
     profile_pic: String!
-    isActvie: Boolean!
+    category: String
+    languages: [String]
+    description: String!
+    properties: [Property]!
+    is_verified: Boolean!
+    is_active: Boolean!
 }
 
 type Property{
     _id: ID!
     title: String!
+    price: String!
     address: String!
+    location: String!
+    photos: [String]!
+    description: String
+    host: Host!
+    punctuation: String
+    reviews: [Review!]
+    features: [String]
+    services: [String]
+    is_available: Boolean
+    is_active: Boolean
+}
+
+type User{
+    _id: ID!
+    first_name: String!
+    last_name: String!
+    email: String!
+    profile_pic: String!
+    languages: [String]
     description: String!
+    registration_date: String!
+    reviews: [Review]
+    is_verified: Boolean!
+    is_active: Boolean!
+}
+
+type Review{
+    _id: ID!
+    user: User!
+    property: Property!
+    published_at: String!
+    is_active: Boolean
 }
 
 input HostCreateInput{
     first_name: String!
     last_name: String!
     email: String!
-    birth_date: String
-    gender: GENDER
     profile_pic: String
+    category: String
+    languages: [String]
+    description: String
+    is_verified: Boolean
+    is_active: Boolean
 }
 
-enum GENDER{
-    M
-    F
+input HostUpdateInput{
+    first_name: String
+    last_name: String
+    email: String
+    profile_pic: String
+    category: String
+    languages: [String]
+    description: String
+    is_verified: Boolean
+    is_active: Boolean
+}
+
+
+input UserCreateInput{
+    first_name: String!
+    last_name: String!
+    email: String!
+    profile_pic: String
+    languages: [String]
+    description: String
+    registration_date: String
+    reviews: [String]
+    is_verified: Boolean
+    is_active: Boolean
+}
+
+input UserUpdateInput{
+    first_name: String
+    last_name: String
+    email: String
+    profile_pic: String
+    languages: [String]
+    description: String
+    registration_date: String
+    reviews: [String]
+    is_verified: Boolean
+    is_active: Boolean
+}
+
+
+
+input ReviewCreateInput{
+    user: String!
+    property: String!
+    published_at: String!
+    is_active: Boolean
+}
+
+input ReviewUpdateInput{
+    user: String
+    property: String
+    published_at: String
+    is_active: Boolean
+}
+
+input PropertyCreateInput{
+    user: String!
+    title: String!
+    price: String!
+    address: String!
+    location: String!
+    photos: [String]
+    description: String
+    host: String!
+    punctuation: String
+    reviews: [String]
+    features: [String]
+    services: [String]
+    is_available: Boolean
+    is_active: Boolean
+}
+
+input PropertyUpdateInput{
+    user: String
+    title: String
+    price: String
+    address: String
+    location: String
+    photos: [String]
+    description: String
+    host: String!
+    punctuation: String
+    reviews: [String]
+    features: [String]
+    services: [String]
+    is_available: Boolean
+    is_active: Boolean
 }

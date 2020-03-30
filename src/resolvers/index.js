@@ -4,7 +4,7 @@ module.exports = {
     Query:{
         ...HostResolver.Query
     },
-    /*Mutation:{
+    Mutation:{
         ...HostResolver.Mutation
-    },*/
+    },
 };

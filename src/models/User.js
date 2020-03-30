@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const HostSchema = new Schema({
+const UserSchema = new Schema({
     first_name: {
         type: String,
         required: true
@@ -19,14 +19,18 @@ const HostSchema = new Schema({
     profile_pic:{
         type: String
     },
-    category:{
-        type: String
-    },
     languages: {
         type: [String]
     },
     description:{
         type: String
+    },
+    registration_date:{
+        type: Date
+    },
+    reviews:{
+        type: [Schema.Types.ObjectId],
+        ref: 'reviews',
     },
     is_active: {
         type: Boolean,
@@ -35,11 +39,7 @@ const HostSchema = new Schema({
     is_verified: {
         type: Boolean,
         default: false
-    },
-    properties: {
-        type: [Schema.Types.ObjectId],
-        ref: 'properties'
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model('hosts', HostSchema);
+module.exports = mongoose.model('users', UserSchema);
