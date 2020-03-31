@@ -12,7 +12,8 @@ const updateUser = async (_, {id, data}) => {
 
 const deleteUser = async (_, {id}) => {
     const user = await deleteUserById(id);
-    return user;
+    if(!user) return 'User does not exist'
+    return 'User deleted';
 };
 
 module.exports = {

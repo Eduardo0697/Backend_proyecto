@@ -1,40 +1,48 @@
 scalar EmailAdd
 scalar URL
 
+directive @auth on FIELD_DEFINITION | FIELD
+
 type Query{
     getHosts:[Host]!
     getUsers:[User]!
     getProperties:[Property]!
     getReviews:[Review]!
 
+
     getHostById(id:ID!):Host!
     getUserById(id:ID!):User!
     getReviewById(id:ID!):Review!
     getPropertyById(id:ID!):Property!
+
+    host: Host! @auth
 }
 
 type Mutation{
     createHost(data:HostCreateInput): Host!
-    updateHost(id:ID!, data:HostUpdateInput): Host!
-    deleteHost(id:ID!): Host!
+    updateHost(id:ID!, data:HostUpdateInput): Host! @auth
+    deleteHost(id:ID!): String! @auth
 
     createUser(data:UserUpdateInput): User!
     updateUser(id:ID!, data:UserUpdateInput): User!
-    deleteUser(id:ID!): User!
+    deleteUser(id:ID!): String!
 
     createReview(data:ReviewCreateInput): Review!
     updateReview(id:ID!, data:ReviewUpdateInput): Review!
     deleteReview(id:ID!): Review!
 
     createProperty(data:PropertyCreateInput): Property!
-    updateProperty(id:ID!, data:PropertyUpdateInput): Property!
-    deleteProperty(id:ID!): Property!
+    updateProperty(id:ID!, data:PropertyUpdateInput): Property!@auth
+    deleteProperty(id:ID!): Property!@auth
+
+    login(email: EmailAdd!, password: String!): Auth!
 }
 
 type Host{
     _id: ID!
     first_name: String!
     last_name: String!
+    password: String
     email: EmailAdd!
     profile_pic: String!
     category: String
@@ -84,9 +92,15 @@ type Review{
     is_active: Boolean
 }
 
+type Auth{
+    token: String!
+    message: String!
+}
+
 input HostCreateInput{
     first_name: String!
     last_name: String!
+    password: String!
     email: EmailAdd!
     profile_pic: String
     category: String
@@ -99,6 +113,7 @@ input HostCreateInput{
 input HostUpdateInput{
     first_name: String
     last_name: String
+    password: String
     email: EmailAdd
     profile_pic: String
     category: String

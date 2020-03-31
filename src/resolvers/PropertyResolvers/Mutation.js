@@ -1,12 +1,13 @@
 const { createOneProperty, updatePropertyById, deletePropertyById } = require('../../services/PropertyService');
 const { getOneHostById } = require('../../services/HostService');
 
-const createProperty = async (_, {idHost, data}) => {
+const createProperty = async (_, { data }, { userAuth }) => {
     const property = await createOneProperty(data);
     if(property) {
-        const host = await getOneHostById(idHost);
-        host.properties.push(property._id);
-        host.save();
+        userAuth.properties.push(property._id);
+        userAuth.save();
+        property.host = userAuth._id;
+        property.save();
     }
     return property;
 };

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
 const Schema = mongoose.Schema;
 
 const HostSchema = new Schema({
@@ -14,6 +16,10 @@ const HostSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    password:{
+        type: String,
+        required: true,
     },
     profile_pic:{
         type: String
@@ -40,5 +46,21 @@ const HostSchema = new Schema({
         ref: 'properties'
     }
 }, { timestamps: true });
+
+HostSchema.pre('save', function (next) {
+    const host = this;
+    const SALT_FACTOR = 10;
+    if(!host.isModified('password')){
+        return next();
+    }
+    bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
+        if(err) return next(err);
+        bcrypt.hash(host.password, salt, function (error, hash) {
+            if(error) return next(error);
+            host.password = hash;
+            next()
+        })
+    });
+});
 
 module.exports = mongoose.model('hosts', HostSchema);

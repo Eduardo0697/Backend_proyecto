@@ -1,6 +1,9 @@
 require('dotenv').config();
 const { GraphQLServer } = require('graphql-yoga');
 const { importSchema } = require('graphql-import');
+const { makeExecutableSchema } = require('graphql-tools');
+const verifyToken = require('./src/utils/verifyToken');
+const AuthDirective = require('./src/resolvers/Directives/AuthResolver');
 const resolvers = require('./src/resolvers');
 
 const mongooose = require('mongoose');
@@ -18,18 +21,22 @@ mongo.on('error', error => console.log(error))
 
 const typeDefs = importSchema(__dirname + '/schema.graphql');
 
-
-
-/**
- * root: informacion del server de gpql
- * params: datos que envia el cliente y se definen en el type def
- * context: es un objeto por el cual se comunican los resorvers
- * info: es el query que se ejecuto por el cliente
- * 
- */
-const server = new GraphQLServer({
+const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
+    schemaDirectives: {
+        auth: AuthDirective,
+    }
+});
+
+const  server = new GraphQLServer({
+    schema,
+    context: async (contextParams) => ({
+        ...contextParams,
+        userAuth: contextParams.request
+            ? await verifyToken(contextParams.request)
+            : {},
+    }),
 });
 
 server.start(() => console.log('Server iniciado en puerto 4000'));
