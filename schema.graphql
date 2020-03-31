@@ -1,21 +1,31 @@
 type Query{
     getHosts:[Host]!
     getUsers:[User]!
-    getHostsById(id:ID!):Host!
-    getUsersById(id:ID!):User!
-    getReviewsByIs(id:ID!):Review! 
+    getProperties:[Property]!
+    getReviews:[Review]!
+
+    getHostById(id:ID!):Host!
+    getUserById(id:ID!):User!
+    getReviewById(id:ID!):Review!
+    getPropertyById(id:ID!):Property!
 }
 
 type Mutation{
     createHost(data:HostCreateInput): Host!
     updateHost(id:ID!, data:HostUpdateInput): Host!
     deleteHost(id:ID!): Host!
+
     createUser(data:UserUpdateInput): User!
     updateUser(id:ID!, data:UserUpdateInput): User!
     deleteUser(id:ID!): User!
+
     createReview(data:ReviewCreateInput): Review!
     updateReview(id:ID!, data:ReviewUpdateInput): Review!
     deleteReview(id:ID!): Review!
+
+    createProperty(data:PropertyCreateInput): Property!
+    updateProperty(id:ID!, data:PropertyUpdateInput): Property!
+    deleteProperty(id:ID!): Property!
 }
 
 type Host{
