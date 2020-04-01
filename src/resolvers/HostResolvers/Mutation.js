@@ -1,4 +1,4 @@
-const { createOneHost, updateHostById, deleteHostById } = require('../../services/HostService');
+const { createOneHost, updateHostById, deleteHostById } = require('../../services/UserService');
 const authenticate = require('../../utils/authenticate');
 
 const createHost = async (_, { data }) => {

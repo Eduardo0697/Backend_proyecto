@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
 
@@ -16,21 +17,36 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
+    password:{
+        type: String,
+        required: true,
+    },
     profile_pic:{
+        type: String
+    },
+    hostCategory:{
         type: String
     },
     languages: {
         type: [String]
     },
+    reviewsDone:{
+        type: [Schema.Types.ObjectId],
+        ref: 'propertyReviews'
+    },
+    reviewsReceived:{
+        type: [Schema.Types.ObjectId],
+        ref: 'userReviews'
+    },
     description:{
         type: String
     },
-    registration_date:{
-        type: Date
-    },
-    reviews:{
+    properties: {
         type: [Schema.Types.ObjectId],
-        ref: 'reviews',
+        ref: 'properties'
+    },
+    nationality:{
+        type: String
     },
     is_active: {
         type: Boolean,
@@ -39,7 +55,29 @@ const UserSchema = new Schema({
     is_verified: {
         type: Boolean,
         default: false
+    },
+    is_host: {
+        type: Boolean,
+    },
+    is_guest: {
+        type: Boolean
     }
 }, { timestamps: true });
+
+UserSchema.pre('save', function (next) {
+    const user = this;
+    const SALT_FACTOR = 10;
+    if(!user.isModified('password')){
+        return next();
+    }
+    bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
+        if(err) return next(err);
+        bcrypt.hash(user.password, salt, function (error, hash) {
+            if(error) return next(error);
+            user.password = hash;
+            next()
+        })
+    });
+});
 
 module.exports = mongoose.model('users', UserSchema);

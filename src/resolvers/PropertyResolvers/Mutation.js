@@ -1,5 +1,5 @@
 const { createOneProperty, updatePropertyById, deletePropertyById } = require('../../services/PropertyService');
-const { getOneHostById } = require('../../services/HostService');
+const { getOneHostById } = require('../../services/UserService');
 
 const createProperty = async (_, { data }, { userAuth }) => {
     const property = await createOneProperty(data);

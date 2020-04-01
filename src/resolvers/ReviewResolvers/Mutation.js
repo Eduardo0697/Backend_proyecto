@@ -1,4 +1,4 @@
-const { createOneReview, updateReviewById, deleteReviewById } = require('../../services/ReviewService');
+const { createOneReview, updateReviewById, deleteReviewById } = require('../../services/UserReviewService');
 const { getOneUserById } = require('../../services/UserService');
 const { getOnePropertyById } = require('../../services/PropertyService');
 

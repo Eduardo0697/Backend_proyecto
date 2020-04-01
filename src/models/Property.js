@@ -13,8 +13,7 @@ const PropertySchema = new Schema({
     },
     address: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     location:{
         type: String
@@ -25,9 +24,9 @@ const PropertySchema = new Schema({
     description:{
         type: String
     },
-    host: {
+    hostUser: {
         type: Schema.Types.ObjectId,
-        ref: 'hosts',
+        ref: 'users',
         required: true
     },
     punctuation:{
@@ -35,7 +34,7 @@ const PropertySchema = new Schema({
     },
     reviews: {
         type: [Schema.Types.ObjectId],
-        ref: 'reviews',
+        ref: 'propertyReviews',
     },
     features: {
         type: [String]
@@ -51,7 +50,6 @@ const PropertySchema = new Schema({
         type: Boolean,
         default: true
     }
-
 }, { timestamps: true });
 
 module.exports = mongoose.model('properties', PropertySchema);

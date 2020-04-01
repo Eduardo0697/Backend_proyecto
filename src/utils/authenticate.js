@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { getOneHostByEmail } = require('../services/HostService')
+const { getOneHostByEmail } = require('../services/UserService')
 const createToken = require('./createToken');
 
 const authenticate = ( { email, password }) => {

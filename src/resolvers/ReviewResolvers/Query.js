@@ -1,4 +1,4 @@
-const { getAllReviews, getOneReviewById } = require('../../services/ReviewService');
+const { getAllReviews, getOneReviewById } = require('../../services/UserReviewService');
 
 const getReviews = async () => {
     const review = await getAllReviews();

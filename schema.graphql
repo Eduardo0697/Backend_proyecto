@@ -1,57 +1,46 @@
 scalar EmailAdd
 scalar URL
-
 directive @auth on FIELD_DEFINITION | FIELD
 
 type Query{
-    getHosts:[Host]!
-    getUsers:[User]!
+    getHosts:[User]!
+    getGuests:[User]!
+    getUsers: [User]!
     getProperties:[Property]!
-    getReviews:[Review]!
+    getPropertyReviews: [PropertyReview]!
+    getUserReviews: [UserReview]!
 
-
-    getHostById(id:ID!):Host!
-    getUserById(id:ID!):User!
-    getReviewById(id:ID!):Review!
+    getHostById(id:ID!):User!
+    getGuestById(id:ID!):User!
+    getUserById(id:ID!): User!
     getPropertyById(id:ID!):Property!
+    getPropertyReviewById(id:ID!): PropertyReview!
+    getUserReviewById(id:ID!): UserReview!
 
-    host: Host! @auth
+    me: User! @auth
 }
 
 type Mutation{
-    createHost(data:HostCreateInput): Host!
-    updateHost(id:ID!, data:HostUpdateInput): Host! @auth
-    deleteHost(id:ID!): String! @auth
+    createUser(data:UserCreateInput): User!
+    updateUser(id:ID!, data:UserUpdateInput): User! @auth
+    deleteUser(id:ID!): String! @auth
 
-    createUser(data:UserUpdateInput): User!
-    updateUser(id:ID!, data:UserUpdateInput): User!
-    deleteUser(id:ID!): String!
-
-    createReview(data:ReviewCreateInput): Review!
-    updateReview(id:ID!, data:ReviewUpdateInput): Review!
-    deleteReview(id:ID!): Review!
-
-    createProperty(data:PropertyCreateInput): Property!
+    createProperty(data:PropertyCreateInput): Property!@auth
     updateProperty(id:ID!, data:PropertyUpdateInput): Property!@auth
     deleteProperty(id:ID!): Property!@auth
+
+    createPropertyReview(data:PropertyReviewCreateInput): PropertyReview!@auth
+    updatePropertyReview(id:ID!, data:PropertyReviewUpdateInput): PropertyReview!@auth
+    deletePropertyReview(id:ID!): PropertyReview!@auth
+
+    createUserReview(data:UserReviewCreateInput): UserReview!@auth
+    updateUserReview(id:ID!, data:UserReviewUpdateInput): UserReview!@auth
+    deleteUeerReview(id:ID!): UserReview!@auth
 
     login(email: EmailAdd!, password: String!): Auth!
 }
 
-type Host{
-    _id: ID!
-    first_name: String!
-    last_name: String!
-    password: String
-    email: EmailAdd!
-    profile_pic: String!
-    category: String
-    languages: [String]
-    description: String!
-    properties: [Property]!
-    is_verified: Boolean!
-    is_active: Boolean!
-}
+
 
 type Property{
     _id: ID!
@@ -61,9 +50,9 @@ type Property{
     location: String!
     photos: [String]!
     description: String
-    host: Host!
+    hostUser: User!
     punctuation: String
-    reviews: [Review!]
+    reviews: [PropertyReview!]
     features: [String]
     services: [String]
     is_available: Boolean
@@ -75,20 +64,32 @@ type User{
     first_name: String!
     last_name: String!
     email: EmailAdd!
+    password: String!
     profile_pic: String!
-    languages: [String]
+    hostCategory: String!
+    languages: [String]!
+    reviewsDone: [PropertyReview]!
+    reviewsReceived: [UserReview]!
     description: String!
-    registration_date: String!
-    reviews: [Review]
+    properties: [Property]!
+    nationality: String!
     is_verified: Boolean!
     is_active: Boolean!
+    is_guest: Boolean!
+    is_host: Boolean!
 }
 
-type Review{
+type PropertyReview{
     _id: ID!
     user: User!
     property: Property!
-    published_at: String!
+    is_active: Boolean
+}
+
+type UserReview{
+    _id: ID!
+    hostUser: User!
+    guestUser: User!
     is_active: Boolean
 }
 
@@ -97,84 +98,77 @@ type Auth{
     message: String!
 }
 
-input HostCreateInput{
-    first_name: String!
-    last_name: String!
-    password: String!
-    email: EmailAdd!
-    profile_pic: String
-    category: String
-    languages: [String]
-    description: String
-    is_verified: Boolean
-    is_active: Boolean
-}
-
-input HostUpdateInput{
-    first_name: String
-    last_name: String
-    password: String
-    email: EmailAdd
-    profile_pic: String
-    category: String
-    languages: [String]
-    description: String
-    is_verified: Boolean
-    is_active: Boolean
-}
-
-
 input UserCreateInput{
     first_name: String!
     last_name: String!
     email: EmailAdd!
+    password: String!
     profile_pic: String
+    hostCategory: String
     languages: [String]
+    reviewsDone: [String]
+    reviewsReceived: [String]
     description: String
-    registration_date: String
-    reviews: [String]
+    properties: [String]
+    nationality: String
     is_verified: Boolean
     is_active: Boolean
+    is_guest: Boolean
+    is_host: Boolean
 }
 
 input UserUpdateInput{
     first_name: String
     last_name: String
     email: EmailAdd
+    password: String
     profile_pic: String
+    hostCategory: String
     languages: [String]
+    reviewsDone: [String]
+    reviewsReceived: [String]
     description: String
-    registration_date: String
-    reviews: [String]
+    properties: [String]
+    nationality: String
     is_verified: Boolean
     is_active: Boolean
+    is_guest: Boolean
+    is_host: Boolean
 }
 
-
-
-input ReviewCreateInput{
+input PropertyReviewCreateInput{
     user: String!
     property: String!
-    published_at: String!
     is_active: Boolean
 }
 
-input ReviewUpdateInput{
+input PropertyReviewUpdateInput{
     user: String
     property: String
-    published_at: String
     is_active: Boolean
 }
 
+input UserReviewCreateInput{
+    hostUser: String!
+    guestUser: String!
+    is_active: Boolean
+}
+
+input UserReviewUpdateInput{
+    hostUser: String
+    guestUser: String
+    is_active: Boolean
+}
+
+
 input PropertyCreateInput{
-    user: String!
     title: String!
     price: String!
     address: String!
     location: String!
     photos: [String]
     description: String
-    host: String!
+    hostUser: String!
     punctuation: String
     reviews: [String]
     features: [String]
@@ -184,14 +178,13 @@ input PropertyCreateInput{
 }
 
 input PropertyUpdateInput{
-    user: String
     title: String
     price: String
     address: String
     location: String
     photos: [String]
     description: String
-    host: String!
+    hostUser: String
     punctuation: String
     reviews: [String]
     features: [String]

@@ -1,4 +1,4 @@
-const { getAllHosts, getOneHostById } = require('../../services/HostService');
+const { getAllHosts, getOneHostById } = require('../../services/UserService');
 
 const getHosts = async () => {
     const hosts = await getAllHosts();
