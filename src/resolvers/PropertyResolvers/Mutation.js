@@ -1,6 +1,17 @@
 const { createOneProperty, updatePropertyById, deletePropertyById, getOnePropertyById } = require('../../services/PropertyService');
-
+const storage = require('../../utils/storage')
 const createProperty = async (_, { data }, { userAuth }) => {
+
+    if(data.photos){
+        const { createReadStream } = await data.photos;
+        const stream = createReadStream();
+        const storageInfo = await storage({stream});
+        console.log(storageInfo);
+        data = {
+            ...data,
+            photos: storageInfo.url, //url image
+        };
+    }
     const property = await createOneProperty(data);
     if(property) {
         userAuth.properties.push(property._id);
@@ -12,6 +23,16 @@ const createProperty = async (_, { data }, { userAuth }) => {
 };
 
 const updateProperty = async (_, {id, data}) => {
+    if(data.photos){
+        const { createReadStream } = await data.photos;
+        const stream = createReadStream();
+        const storageInfo = await storage({stream});
+        console.log(storageInfo);
+        data = {
+            ...data,
+            photos: storageInfo.url, //url image
+        };
+    }
     const property = await updatePropertyById(id, data);
     return property;
 };
