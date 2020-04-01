@@ -1,0 +1,169 @@
+scalar EmailAdd
+scalar URL
+directive @auth on FIELD_DEFINITION | FIELD
+
+type Query{
+    getHosts:[User]!
+    getGuests:[User]!
+    getUsers: [User]!
+    getProperties:[Property]!
+    getPropertyReviews: [PropertyReview]!
+
+    getHostById(id:ID!):User!
+    getGuestById(id:ID!):User!
+    getUserById(id:ID!): User!
+    getPropertyById(id:ID!):Property!
+    getPropertyReviewById(id:ID!): PropertyReview!
+
+    me: User! @auth
+}
+
+type Mutation{
+    createUser(data:UserCreateInput): User!
+    updateUser(id:ID!, data:UserUpdateInput): User! @auth
+    deleteUser(id:ID!): String! @auth
+
+    createProperty(data:PropertyCreateInput): Property!@auth
+    updateProperty(id:ID!, data:PropertyUpdateInput): Property!@auth
+    deleteProperty(id:ID!): Property!@auth
+
+    createPropertyReview(data:PropertyReviewCreateInput): PropertyReview!@auth
+    updatePropertyReview(id:ID!, data:PropertyReviewUpdateInput): PropertyReview!@auth
+    deletePropertyReview(id:ID!): PropertyReview!@auth
+
+
+    login(email: EmailAdd!, password: String!): Auth!
+}
+
+
+
+type Property{
+    _id: ID!
+    title: String!
+    price: String!
+    address: String!
+    location: String!
+    photos: [String]!
+    description: String
+    hostUser: User!
+    punctuation: String
+    reviews: [PropertyReview!]
+    features: [String]
+    services: [String]
+    is_available: Boolean
+    is_active: Boolean
+}
+
+type User{
+    _id: ID!
+    first_name: String!
+    last_name: String!
+    email: EmailAdd!
+    password: String!
+    profile_pic: String!
+    hostCategory: String!
+    languages: [String]!
+    reviewsDone: [PropertyReview]!
+    description: String!
+    properties: [Property]!
+    nationality: String!
+    is_verified: Boolean!
+    is_active: Boolean!
+    is_guest: Boolean!
+    is_host: Boolean!
+}
+
+type PropertyReview{
+    _id: ID!
+    user: User!
+    property: Property!
+    comment: String!
+    is_active: Boolean
+}
+
+type Auth{
+    token: String!
+    message: String!
+}
+
+input UserCreateInput{
+    first_name: String!
+    last_name: String!
+    email: EmailAdd!
+    password: String!
+    profile_pic: String
+    hostCategory: String
+    languages: [String]
+    reviewsDone: [String]
+    description: String
+    properties: [String]
+    nationality: String
+    is_verified: Boolean
+    is_active: Boolean
+    is_guest: Boolean
+    is_host: Boolean
+}
+
+input UserUpdateInput{
+    first_name: String
+    last_name: String
+    email: EmailAdd
+    password: String
+    profile_pic: String
+    hostCategory: String
+    languages: [String]
+    reviewsDone: [String]
+    description: String
+    properties: [String]
+    nationality: String
+    is_verified: Boolean
+    is_active: Boolean
+    is_guest: Boolean
+    is_host: Boolean
+}
+
+input PropertyReviewCreateInput{
+    user: String!
+    property: String!
+    comment: String!
+    is_active: Boolean
+}
+
+input PropertyReviewUpdateInput{
+    user: String
+    property: String
+    comment: String
+    is_active: Boolean
+}
+
+input PropertyCreateInput{
+    title: String!
+    price: String!
+    address: String!
+    location: String!
+    photos: [String]
+    description: String
+    hostUser: String!
+    punctuation: String
+    reviews: [String]
+    features: [String]
+    services: [String]
+    is_available: Boolean
+    is_active: Boolean
+}
+
+input PropertyUpdateInput{
+    title: String
+    price: String
+    address: String
+    location: String
+    photos: [String]
+    description: String
+    hostUser: String
+    punctuation: String
+    reviews: [String]
+    features: [String]
+    services: [String]
+    is_available: Boolean
+    is_active: Boolean
+}
