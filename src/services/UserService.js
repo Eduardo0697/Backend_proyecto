@@ -4,24 +4,21 @@ const getAllUsers = () =>  Users
     .find({is_active: true})
     .populate(
         {path: 'properties',  model: 'properties'},
-        {path: 'reviewsDone', model: 'propertyReviews'},
-        {path: 'reviewsReceived', model: 'userReviews'}
+        {path: 'reviewsDone', model: 'propertyReviews'}
         );
 
 const getOneUserById = (id) => Users.findById({
     _id: id, is_active: true
 }).populate(
     {path: 'properties',  model: 'properties'},
-    {path: 'reviewsDone', model: 'propertyReviews'},
-    {path: 'reviewsReceived', model: 'userReviews'}
+    {path: 'reviewsDone', model: 'propertyReviews'}
 );
 
 const getOneUserByEmail = (email) => Users.findById({
     email: email, is_active: true
 }).populate(
     {path: 'properties',  model: 'properties'},
-    {path: 'reviewsDone', model: 'propertyReviews'},
-    {path: 'reviewsReceived', model: 'userReviews'}
+    {path: 'reviewsDone', model: 'propertyReviews'}
 );
 
 const createOneUser = (data) => Users.create(data);
@@ -32,8 +29,7 @@ const updateUserById = (id, data) => Users
     }, {...data}, {new: true})
     .populate(
         {path: 'properties',  model: 'properties'},
-        {path: 'reviewsDone', model: 'propertyReviews'},
-        {path: 'reviewsReceived', model: 'userReviews'}
+        {path: 'reviewsDone', model: 'propertyReviews'}
     );
 
 const deleteUserById = (id) => Users.

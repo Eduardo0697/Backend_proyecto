@@ -13,6 +13,10 @@ const PropertyReviewSchema = new Schema({
         ref: 'properties',
         required: true
     },
+    comment:{
+        type: String,
+        required: true
+    },
     is_active:{
         type: Boolean
     }

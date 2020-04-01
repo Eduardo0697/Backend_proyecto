@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
-const { getOneHostByEmail } = require('../services/UserService')
+const { getOneUserByEmail } = require('../services/UserService')
 const createToken = require('./createToken');
 
 const authenticate = ( { email, password }) => {
   return new Promise( (resolve, reject) => {
-      getOneHostByEmail(email).then(userAuth => {
-        if(!userAuth) reject(new Error('Author does not exists'));
+      getOneUserByEmail(email).then(userAuth => {
+        if(!userAuth) reject(new Error('User does not exist'));
         bcrypt.compare(password, userAuth.password, (err, isValid) => {
           if(err) reject(new Error('Error to compare'));
           isValid

@@ -8,14 +8,12 @@ type Query{
     getUsers: [User]!
     getProperties:[Property]!
     getPropertyReviews: [PropertyReview]!
-    getUserReviews: [UserReview]!
 
     getHostById(id:ID!):User!
     getGuestById(id:ID!):User!
     getUserById(id:ID!): User!
     getPropertyById(id:ID!):Property!
     getPropertyReviewById(id:ID!): PropertyReview!
-    getUserReviewById(id:ID!): UserReview!
 
     me: User! @auth
 }
@@ -33,9 +31,6 @@ type Mutation{
     updatePropertyReview(id:ID!, data:PropertyReviewUpdateInput): PropertyReview!@auth
     deletePropertyReview(id:ID!): PropertyReview!@auth
 
-    createUserReview(data:UserReviewCreateInput): UserReview!@auth
-    updateUserReview(id:ID!, data:UserReviewUpdateInput): UserReview!@auth
-    deleteUeerReview(id:ID!): UserReview!@auth
 
     login(email: EmailAdd!, password: String!): Auth!
 }
@@ -69,7 +64,6 @@ type User{
     hostCategory: String!
     languages: [String]!
     reviewsDone: [PropertyReview]!
-    reviewsReceived: [UserReview]!
     description: String!
     properties: [Property]!
     nationality: String!
@@ -83,13 +77,7 @@ type PropertyReview{
     _id: ID!
     user: User!
     property: Property!
-    is_active: Boolean
-}
-
-type UserReview{
-    _id: ID!
-    hostUser: User!
-    guestUser: User!
+    comment: String!
     is_active: Boolean
 }
 
@@ -107,7 +95,6 @@ input UserCreateInput{
     hostCategory: String
     languages: [String]
     reviewsDone: [String]
-    reviewsReceived: [String]
     description: String
     properties: [String]
     nationality: String
@@ -126,7 +113,6 @@ input UserUpdateInput{
     hostCategory: String
     languages: [String]
     reviewsDone: [String]
-    reviewsReceived: [String]
     description: String
     properties: [String]
     nationality: String
@@ -139,27 +125,16 @@ input UserUpdateInput{
 input PropertyReviewCreateInput{
     user: String!
     property: String!
+    comment: String!
     is_active: Boolean
 }
 
 input PropertyReviewUpdateInput{
     user: String
     property: String
+    comment: String
     is_active: Boolean
 }
-
-input UserReviewCreateInput{
-    hostUser: String!
-    guestUser: String!
-    is_active: Boolean
-}
-
-input UserReviewUpdateInput{
-    hostUser: String
-    guestUser: String
-    is_active: Boolean
-}
-
 
 input PropertyCreateInput{
     title: String!

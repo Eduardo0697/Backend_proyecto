@@ -1,6 +1,6 @@
-const HostResolver = require('./HostResolvers');
+
 const PropertyResolver = require('./PropertyResolvers');
-const ReviewResolver = require('./ReviewResolvers');
+const PropertyReviewResolver = require('./PropertyReviewResolvers');
 const UserResolver = require('./UserResolvers');
 const { EmailAddressResolver, URLResolver } = require('graphql-scalars');
 
@@ -8,16 +8,13 @@ module.exports = {
     EmailAdd: EmailAddressResolver,
     URL: URLResolver,
     Query:{
-        ...HostResolver.Query,
         ...PropertyResolver.Query,
-        ...ReviewResolver.Query,
+        ...PropertyReviewResolver.Query,
         ...UserResolver.Query,
-
     },
     Mutation:{
-        ...HostResolver.Mutation,
         ...PropertyResolver.Mutation,
-        ...ReviewResolver.Mutation,
+        ...PropertyReviewResolver.Mutation,
         ...UserResolver.Mutation,
     },
 };

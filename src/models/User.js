@@ -34,10 +34,6 @@ const UserSchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'propertyReviews'
     },
-    reviewsReceived:{
-        type: [Schema.Types.ObjectId],
-        ref: 'userReviews'
-    },
     description:{
         type: String
     },
@@ -66,7 +62,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', function (next) {
     const user = this;
-    const SALT_FACTOR = 10;
+    const SALT_FACTOR = 13;
     if(!user.isModified('password')){
         return next();
     }
