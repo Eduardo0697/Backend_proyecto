@@ -1,18 +1,22 @@
 const { createOnePropertyReview, updatePropertyReviewById, deletePropertyReviewById } = require('../../services/PropertyReviewService');
 const { getOnePropertyById } = require('../../services/PropertyService');
 
-const createPropertyReview = async (_, {idProperty, data}, { userAuth }) => {
+const createPropertyReview = async (_, {data}, { userAuth }) => {
     const propertyReview = await createOnePropertyReview(data);
     if(propertyReview) {
-
+        console.log('CRreando');
         //Save the propertyReview in the user logged in reviewsDone
         userAuth.reviewsDone.push(propertyReview._id);
         userAuth.save();
 
         // Save the propertyReview in the reviews of the Property
-        const Property = await getOnePropertyById(idProperty);
+        const Property = await getOnePropertyById(data.property);
         Property.reviews.push(propertyReview._id);
         Property.save();
+
+        propertyReview.user= userAuth._id;
+        propertyReview.property = Property._id;
+        propertyReview.save();
     }
     return propertyReview;
 };

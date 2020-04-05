@@ -5,20 +5,18 @@ const Schema = mongoose.Schema;
 const PropertyReviewSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
-        required: true
+        ref: 'users'
     },
     property: {
         type: Schema.Types.ObjectId,
-        ref: 'properties',
-        required: true
+        ref: 'properties'
     },
     comment:{
-        type: String,
-        required: true
+        type: String
     },
     is_active:{
-        type: Boolean
+        type: Boolean,
+        default: true
     }
 }, { timestamps: true });
 

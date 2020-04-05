@@ -1,16 +1,13 @@
 scalar EmailAdd
 scalar URL
+scalar Upload
 directive @auth on FIELD_DEFINITION | FIELD
 
 type Query{
-    getHosts:[User]!
-    getGuests:[User]!
-    getUsers: [User]!
-    getProperties:[Property]!
-    getPropertyReviews: [PropertyReview]!
+    getUsers(filter: String):[User]!
+    getProperties(filter: String):[Property]!
+    getPropertyReviews(filter: String): [PropertyReview]!
 
-    getHostById(id:ID!):User!
-    getGuestById(id:ID!):User!
     getUserById(id:ID!): User!
     getPropertyById(id:ID!):Property!
     getPropertyReviewById(id:ID!): PropertyReview!
@@ -20,8 +17,8 @@ type Query{
 
 type Mutation{
     createUser(data:UserCreateInput): User!
-    updateUser(id:ID!, data:UserUpdateInput): User! @auth
-    deleteUser(id:ID!): String! @auth
+    updateUser(data:UserUpdateInput): User! @auth
+    deleteUser: String! @auth
 
     createProperty(data:PropertyCreateInput): Property!@auth
     updateProperty(id:ID!, data:PropertyUpdateInput): Property!@auth
@@ -31,11 +28,8 @@ type Mutation{
     updatePropertyReview(id:ID!, data:PropertyReviewUpdateInput): PropertyReview!@auth
     deletePropertyReview(id:ID!): PropertyReview!@auth
 
-
     login(email: EmailAdd!, password: String!): Auth!
 }
-
-
 
 type Property{
     _id: ID!
@@ -91,7 +85,7 @@ input UserCreateInput{
     last_name: String!
     email: EmailAdd!
     password: String!
-    profile_pic: String
+    profile_pic: Upload
     hostCategory: String
     languages: [String]
     reviewsDone: [String]
@@ -109,7 +103,7 @@ input UserUpdateInput{
     last_name: String
     email: EmailAdd
     password: String
-    profile_pic: String
+    profile_pic: Upload
     hostCategory: String
     languages: [String]
     reviewsDone: [String]
@@ -123,14 +117,12 @@ input UserUpdateInput{
 }
 
 input PropertyReviewCreateInput{
-    user: String!
     property: String!
     comment: String!
     is_active: Boolean
 }
 
 input PropertyReviewUpdateInput{
-    user: String
     property: String
     comment: String
     is_active: Boolean
@@ -141,9 +133,8 @@ input PropertyCreateInput{
     price: String!
     address: String!
     location: String!
-    photos: [String]
+    photos: [Upload]
     description: String
-    hostUser: String!
     punctuation: String
     reviews: [String]
     features: [String]
@@ -157,9 +148,8 @@ input PropertyUpdateInput{
     price: String
     address: String
     location: String
-    photos: [String]
+    photos: [Upload]
     description: String
-    hostUser: String
     punctuation: String
     reviews: [String]
     features: [String]

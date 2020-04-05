@@ -1,15 +1,17 @@
 const { createOneProperty, updatePropertyById, deletePropertyById, getOnePropertyById } = require('../../services/PropertyService');
-const storage = require('../../utils/storage')
-const createProperty = async (_, { data }, { userAuth }) => {
+const storage = require('../../utils/storage');
 
+const createProperty = async (_, { data }, { userAuth }) => {
     if(data.photos){
-        const { createReadStream } = await data.photos;
-        const stream = createReadStream();
-        const storageInfo = await storage({stream});
-        console.log(storageInfo);
+        const promises = await data.photos.map(async photo => {
+            const { createReadStream } = await photo;
+            const stream = createReadStream();
+            return await storage({stream});
+        });
+        const arrayPhotos = await Promise.all(promises);
         data = {
             ...data,
-            photos: storageInfo.url, //url image
+            photos: arrayPhotos,
         };
     }
     const property = await createOneProperty(data);
@@ -24,13 +26,15 @@ const createProperty = async (_, { data }, { userAuth }) => {
 
 const updateProperty = async (_, {id, data}) => {
     if(data.photos){
-        const { createReadStream } = await data.photos;
-        const stream = createReadStream();
-        const storageInfo = await storage({stream});
-        console.log(storageInfo);
+        const promises = await data.photos.map(async photo => {
+            const { createReadStream } = await photo;
+            const stream = createReadStream();
+            return await storage({stream});
+        });
+        const arrayPhotos = await Promise.all(promises);
         data = {
             ...data,
-            photos: storageInfo.url, //url image
+            photos: arrayPhotos,
         };
     }
     const property = await updatePropertyById(id, data);

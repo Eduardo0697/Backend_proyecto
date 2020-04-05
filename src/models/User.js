@@ -72,7 +72,7 @@ UserSchema.pre('save', function (next) {
             if(error) return next(error);
             user.password = hash;
             next()
-        })
+        });
     });
 });
 
