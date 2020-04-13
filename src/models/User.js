@@ -22,7 +22,8 @@ const UserSchema = new Schema({
         required: true,
     },
     profile_pic:{
-        type: String
+        type: String,
+        default: ''
     },
     hostCategory:{
         type: String
@@ -35,7 +36,8 @@ const UserSchema = new Schema({
         ref: 'propertyReviews'
     },
     description:{
-        type: String
+        type: String,
+        default: ''
     },
     properties: {
         type: [Schema.Types.ObjectId],
@@ -57,7 +59,11 @@ const UserSchema = new Schema({
     },
     is_guest: {
         type: Boolean
-    }
+    },
+    createdAt:
+        {
+            type: String
+        }
 }, { timestamps: true });
 
 UserSchema.pre('save', function (next) {
@@ -72,7 +78,7 @@ UserSchema.pre('save', function (next) {
             if(error) return next(error);
             user.password = hash;
             next()
-        })
+        });
     });
 });
 

@@ -7,6 +7,13 @@ const getAllPropertyReviews = () =>  PropertyReviews
         { path: 'property', model: 'properties' }
         ]);
 
+const getAllPropertyReviewsFilter = (filter) =>  PropertyReviews
+    .find({[filter]: { $exists: true} , is_active: true })
+    .populate([
+        { path: 'user', model: 'users'},
+        { path: 'property', model: 'properties' }
+    ]);
+
 const getOnePropertyReviewById = (id) => PropertyReviews.findById({
     _id: id, is_active: true
 }) .populate([
@@ -32,6 +39,7 @@ const deletePropertyReviewById = (id) => PropertyReviews
 
 module.exports = {
     getAllPropertyReviews,
+    getAllPropertyReviewsFilter,
     getOnePropertyReviewById,
     createOnePropertyReview,
     updatePropertyReviewById,

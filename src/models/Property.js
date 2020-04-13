@@ -26,8 +26,7 @@ const PropertySchema = new Schema({
     },
     hostUser: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
-        required: true
+        ref: 'users'
     },
     punctuation:{
         type: String

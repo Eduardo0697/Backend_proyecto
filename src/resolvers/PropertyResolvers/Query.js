@@ -1,8 +1,11 @@
-const { getAllProperties, getOnePropertyById } = require('../../services/PropertyService');
+const { getAllProperties, getAllPropertiesFilter, getOnePropertyById } = require('../../services/PropertyService');
 
-const getProperties = async () => {
-    const property = await getAllProperties();
-    return property;
+const getProperties = async (_, {filter}) => {
+    const properties = filter
+        ? await getAllPropertiesFilter()
+        : await getAllProperties();
+    //console.log(JSON.stringify(properties));
+    return properties;
 };
 
 const getPropertyById = async (_, {id}) => {

@@ -1,7 +1,9 @@
-const { getAllPropertyReviews, getOnePropertyReviewById } = require('../../services/PropertyReviewService');
+const { getAllPropertyReviews, getAllPropertyReviewsFilter, getOnePropertyReviewById } = require('../../services/PropertyReviewService');
 
-const getPropertyReviews = async () => {
-    const reviews = await getAllPropertyReviews();
+const getPropertyReviews = async (_, { filter }) => {
+    const reviews = filter
+        ? await getAllPropertyReviewsFilter()
+        : await getAllPropertyReviews();
     return reviews;
 };
 
