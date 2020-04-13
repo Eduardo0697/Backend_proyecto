@@ -11,6 +11,16 @@ const ReservationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'properties'
     },
+    guestNumber:{
+        type: Number,
+        default: 1
+    },
+    startDate:{
+        type: String
+    },
+    endDate:{
+       type: String
+    },
     is_active:{
         type: Boolean,
         default: true

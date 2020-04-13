@@ -89,6 +89,9 @@ type Reservation{
     _id: ID!
     user: User!
     property: Property!
+    guestNumber: Int
+    startDate: String
+    endDate: String
     is_active: Boolean
     createdAt: String
 }
@@ -151,12 +154,18 @@ input PropertyReviewUpdateInput{
 input ReservationCreateInput{
     property: String!
     comment: String!
+    guestNumber: Int
+    startDate: String
+    endDate: String
     is_active: Boolean
 }
 
 input ReservationUpdateInput{
     property: String
     comment: String
+    guestNumber: Int
+    startDate: String
+    endDate: String
     is_active: Boolean
 }
 
