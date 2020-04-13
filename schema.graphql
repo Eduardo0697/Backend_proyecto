@@ -37,7 +37,7 @@ type Property{
     price: String!
     address: String!
     location: String!
-    photos: [String]!
+    photos: [String]
     description: String
     hostUser: User!
     punctuation: String
@@ -65,6 +65,7 @@ type User{
     is_active: Boolean!
     is_guest: Boolean!
     is_host: Boolean!
+    createdAt: String
 }
 
 type PropertyReview{
@@ -73,6 +74,7 @@ type PropertyReview{
     property: Property!
     comment: String!
     is_active: Boolean
+    createdAt: String
 }
 
 type Auth{

@@ -2,11 +2,13 @@ const { createOneProperty, updatePropertyById, deletePropertyById, getOnePropert
 const storage = require('../../utils/storage');
 
 const createProperty = async (_, { data }, { userAuth }) => {
+
     if(data.photos){
         const promises = await data.photos.map(async photo => {
             const { createReadStream } = await photo;
             const stream = createReadStream();
-            return await storage({stream});
+            const storageInfo = await storage({stream});
+            return storageInfo.secure_url;
         });
         const arrayPhotos = await Promise.all(promises);
         data = {

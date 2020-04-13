@@ -4,6 +4,7 @@ const getProperties = async (_, {filter}) => {
     const properties = filter
         ? await getAllPropertiesFilter()
         : await getAllProperties();
+    //console.log(JSON.stringify(properties));
     return properties;
 };
 
