@@ -7,10 +7,12 @@ type Query{
     getUsers(filter: String):[User]!
     getProperties(filter: String):[Property]!
     getPropertyReviews(filter: String): [PropertyReview]!
+    getReservations(filter: String): [Reservation]!
 
     getUserById(id:ID!): User!
     getPropertyById(id:ID!):Property!
     getPropertyReviewById(id:ID!): PropertyReview!
+    getReservationById(id:ID!): Reservation!
 
     me: User! @auth
 }
@@ -28,6 +30,10 @@ type Mutation{
     updatePropertyReview(id:ID!, data:PropertyReviewUpdateInput): PropertyReview!@auth
     deletePropertyReview(id:ID!): PropertyReview!@auth
 
+    createReservation(data:ReservationCreateInput): Reservation!@auth
+    updateReservation(id:ID!, data:ReservationUpdateInput): Reservation!@auth
+    deleteReservation(id:ID!): Reservation!@auth
+
     login(email: EmailAdd!, password: String!): Auth!
 }
 
@@ -42,6 +48,7 @@ type Property{
     hostUser: User!
     punctuation: String
     reviews: [PropertyReview!]
+    reservedBy: [Reservation]
     features: [String]
     services: [String]
     is_available: Boolean
@@ -58,6 +65,7 @@ type User{
     hostCategory: String!
     languages: [String]!
     reviewsDone: [PropertyReview]!
+    reservationsDone: [Reservation]!
     description: String!
     properties: [Property]!
     nationality: String!
@@ -77,6 +85,14 @@ type PropertyReview{
     createdAt: String
 }
 
+type Reservation{
+    _id: ID!
+    user: User!
+    property: Property!
+    is_active: Boolean
+    createdAt: String
+}
+
 type Auth{
     token: String!
     message: String!
@@ -91,6 +107,7 @@ input UserCreateInput{
     hostCategory: String
     languages: [String]
     reviewsDone: [String]
+    reservationsDone: [String]
     description: String
     properties: [String]
     nationality: String
@@ -109,6 +126,7 @@ input UserUpdateInput{
     hostCategory: String
     languages: [String]
     reviewsDone: [String]
+    reservationsDone: [String]
     description: String
     properties: [String]
     nationality: String
@@ -130,6 +148,18 @@ input PropertyReviewUpdateInput{
     is_active: Boolean
 }
 
+input ReservationCreateInput{
+    property: String!
+    comment: String!
+    is_active: Boolean
+}
+
+input ReservationUpdateInput{
+    property: String
+    comment: String
+    is_active: Boolean
+}
+
 input PropertyCreateInput{
     title: String!
     price: String!
@@ -139,6 +169,7 @@ input PropertyCreateInput{
     description: String
     punctuation: String
     reviews: [String]
+    reservedBy: [String]
     features: [String]
     services: [String]
     is_available: Boolean
@@ -154,6 +185,7 @@ input PropertyUpdateInput{
     description: String
     punctuation: String
     reviews: [String]
+    reservedBy: [String]
     features: [String]
     services: [String]
     is_available: Boolean

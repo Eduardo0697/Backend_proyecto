@@ -35,6 +35,10 @@ const UserSchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'propertyReviews'
     },
+    reservationsDone:{
+        type: [Schema.Types.ObjectId],
+        ref: 'reservation'
+    },
     description:{
         type: String,
         default: ''

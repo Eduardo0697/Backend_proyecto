@@ -35,6 +35,10 @@ const PropertySchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'propertyReviews',
     },
+    reservedBy: {
+        type: [Schema.Types.ObjectId],
+        ref: 'reservation',
+    },
     features: {
         type: [String]
     },
