@@ -26,10 +26,12 @@ const UserSchema = new Schema({
         default: 'https://res.cloudinary.com/dmhthryes/image/upload/v1586789099/profile-placeholder_jjsvyn.png'
     },
     hostCategory:{
-        type: String
+        type: String,
+        default: 'Estandar'
     },
     languages: {
-        type: [String]
+        type: String,
+        default: ''
     },
     reviewsDone:{
         type: [Schema.Types.ObjectId],
@@ -48,7 +50,8 @@ const UserSchema = new Schema({
         ref: 'properties'
     },
     nationality:{
-        type: String
+        type: String,
+        default: ''
     },
     is_active: {
         type: Boolean,

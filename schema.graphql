@@ -80,7 +80,7 @@ type User{
     password: String!
     profile_pic: String!
     hostCategory: String!
-    languages: [String]!
+    languages: String!
     reviewsDone: [PropertyReview]!
     reservationsDone: [Reservation]!
     description: String!
@@ -126,7 +126,7 @@ input UserCreateInput{
     password: String!
     profile_pic: Upload
     hostCategory: String
-    languages: [String]
+    languages: String
     reviewsDone: [String]
     reservationsDone: [String]
     description: String
@@ -145,7 +145,7 @@ input UserUpdateInput{
     password: String
     profile_pic: Upload
     hostCategory: String
-    languages: [String]
+    languages: String
     reviewsDone: [String]
     reservationsDone: [String]
     description: String
