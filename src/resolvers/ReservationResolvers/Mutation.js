@@ -2,7 +2,9 @@ const { createOneReservation, updateReservationById, deleteReservationById } = r
 const { getOnePropertyById } = require('../../services/PropertyService');
 
 const createReservation = async (_, {data}, { userAuth }) => {
+    console.log('Entre');
     const reservation = await createOneReservation(data);
+    console.log('Reservacion:',reservation);
     if(reservation) {
         //Save the reservation in the user logged in reservations
         userAuth.reservationsDone.push(reservation._id);

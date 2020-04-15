@@ -40,10 +40,19 @@ const PropertySchema = new Schema({
         ref: 'reservation',
     },
     features: {
-        type: [String]
+        propertyType : String,
+        guests : Number,
+        rooms: Number,
+        bathrooms: Number,
+        beds: Number,
     },
     services: {
-        type: [String]
+        wifi: Boolean,
+        pool: Boolean,
+        airConditioner: Boolean,
+        tv: Boolean,
+        parking: Boolean,
+        washingMachine: Boolean,
     },
     is_available: {
         type: Boolean,

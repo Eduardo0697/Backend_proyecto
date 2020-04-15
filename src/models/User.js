@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     },
     profile_pic:{
         type: String,
-        default: ''
+        default: 'https://res.cloudinary.com/dmhthryes/image/upload/v1586789099/profile-placeholder_jjsvyn.png'
     },
     hostCategory:{
         type: String

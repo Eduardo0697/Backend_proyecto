@@ -24,7 +24,7 @@ type Mutation{
 
     createProperty(data:PropertyCreateInput): Property!@auth
     updateProperty(id:ID!, data:PropertyUpdateInput): Property!@auth
-    deleteProperty(id:ID!): Property!@auth
+    deleteProperty(id:ID!): String!@auth
 
     createPropertyReview(data:PropertyReviewCreateInput): PropertyReview!@auth
     updatePropertyReview(id:ID!, data:PropertyReviewUpdateInput): PropertyReview!@auth
@@ -35,6 +35,22 @@ type Mutation{
     deleteReservation(id:ID!): Reservation!@auth
 
     login(email: EmailAdd!, password: String!): Auth!
+}
+type Features{
+    propertyType : String
+    guests : Int
+    rooms: Int
+    bathrooms: Int
+    beds: Int
+}
+
+type Services{
+    wifi: Boolean
+    pool: Boolean
+    airConditioner: Boolean
+    tv: Boolean
+    parking: Boolean
+    washingMachine: Boolean
 }
 
 type Property{
@@ -49,11 +65,12 @@ type Property{
     punctuation: String
     reviews: [PropertyReview!]
     reservedBy: [Reservation]
-    features: [String]
-    services: [String]
+    features: Features!
+    services: Services!
     is_available: Boolean
     is_active: Boolean
 }
+
 
 type User{
     _id: ID!
@@ -90,6 +107,7 @@ type Reservation{
     user: User!
     property: Property!
     guestNumber: Int
+    comment: String!
     startDate: String
     endDate: String
     is_active: Boolean
@@ -153,8 +171,8 @@ input PropertyReviewUpdateInput{
 
 input ReservationCreateInput{
     property: String!
-    comment: String!
     guestNumber: Int
+    comment: String
     startDate: String
     endDate: String
     is_active: Boolean
@@ -162,8 +180,8 @@ input ReservationCreateInput{
 
 input ReservationUpdateInput{
     property: String
-    comment: String
     guestNumber: Int
+    comment: String
     startDate: String
     endDate: String
     is_active: Boolean
@@ -179,10 +197,27 @@ input PropertyCreateInput{
     punctuation: String
     reviews: [String]
     reservedBy: [String]
-    features: [String]
-    services: [String]
+    features: featuresInput
+    services: servicesInput
     is_available: Boolean
     is_active: Boolean
+}
+
+input featuresInput{
+    propertyType : String
+    guests : Int
+    rooms: Int
+    bathrooms: Int
+    beds: Int
+}
+
+input servicesInput{
+    wifi: Boolean
+    pool: Boolean
+    airConditioner: Boolean
+    tv: Boolean
+    parking: Boolean
+    washingMachine: Boolean
 }
 
 input PropertyUpdateInput{
@@ -195,8 +230,9 @@ input PropertyUpdateInput{
     punctuation: String
     reviews: [String]
     reservedBy: [String]
-    features: [String]
-    services: [String]
+    features: featuresInput
+    services: servicesInput
     is_available: Boolean
     is_active: Boolean
 }
+
