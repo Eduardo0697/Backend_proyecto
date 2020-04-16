@@ -35,11 +35,24 @@ const PropertySchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'propertyReviews',
     },
+    reservedBy: {
+        type: [Schema.Types.ObjectId],
+        ref: 'reservation',
+    },
     features: {
-        type: [String]
+        propertyType : String,
+        guests : Number,
+        rooms: Number,
+        bathrooms: Number,
+        beds: Number,
     },
     services: {
-        type: [String]
+        wifi: Boolean,
+        pool: Boolean,
+        airConditioner: Boolean,
+        tv: Boolean,
+        parking: Boolean,
+        washingMachine: Boolean,
     },
     is_available: {
         type: Boolean,

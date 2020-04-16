@@ -23,17 +23,23 @@ const UserSchema = new Schema({
     },
     profile_pic:{
         type: String,
-        default: ''
+        default: 'https://res.cloudinary.com/dmhthryes/image/upload/v1586789099/profile-placeholder_jjsvyn.png'
     },
     hostCategory:{
-        type: String
+        type: String,
+        default: 'Estandar'
     },
     languages: {
-        type: [String]
+        type: String,
+        default: ''
     },
     reviewsDone:{
         type: [Schema.Types.ObjectId],
         ref: 'propertyReviews'
+    },
+    reservationsDone:{
+        type: [Schema.Types.ObjectId],
+        ref: 'reservation'
     },
     description:{
         type: String,
@@ -44,7 +50,8 @@ const UserSchema = new Schema({
         ref: 'properties'
     },
     nationality:{
-        type: String
+        type: String,
+        default: ''
     },
     is_active: {
         type: Boolean,

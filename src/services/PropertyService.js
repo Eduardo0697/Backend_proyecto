@@ -5,7 +5,9 @@ const getAllProperties = () =>  Properties
     .populate([
         { path: 'reviews', model: 'propertyReviews',
           populate:{ path: 'user', model: 'users'} },
-        { path: 'hostUser', model: 'users'}
+        { path: 'hostUser', model: 'users'},
+        { path: 'reservedBy', model: 'reservation',
+            populate:{ path: 'user', model: 'users'} }
         ]);
 
 const getAllPropertiesFilter = (filter) =>  Properties
@@ -38,7 +40,7 @@ const updatePropertyById = (id, data) => Properties
 const deletePropertyById = (id) => Properties
     .findByIdAndUpdate({
         _id : id, is_active: true
-    }, { is_active: true });
+    }, { is_active: false });
 
 module.exports = {
     getAllProperties,
