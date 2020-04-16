@@ -18,7 +18,9 @@ const getOneUserById = (id) => Users.findById({
     _id: id, is_active: true
 }).populate([
     {path: 'properties',  model: 'properties'},
-    {path: 'reviewsDone', model: 'propertyReviews'}
+    {path: 'reviewsDone', model: 'propertyReviews'},
+    { path: 'reservationsDone', model: 'reservation',
+        populate:{ path: 'property', model: 'properties'} },
 ]);
 
 const getOneUserByEmail = (email) => Users.findOne({
