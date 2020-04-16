@@ -31,7 +31,8 @@ const updateProperty = async (_, {id, data}) => {
         const promises = await data.photos.map(async photo => {
             const { createReadStream } = await photo;
             const stream = createReadStream();
-            return await storage({stream});
+            const storageInfo = await storage({stream});
+            return storageInfo.secure_url;
         });
         const arrayPhotos = await Promise.all(promises);
         data = {
